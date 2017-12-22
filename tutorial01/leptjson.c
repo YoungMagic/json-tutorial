@@ -6,8 +6,9 @@
 
 typedef struct {
     const char* json;
-}lept_context;
+}lept_context;//存储数据
 
+//干掉空白等字符
 static void lept_parse_whitespace(lept_context* c) {
     const char *p = c->json;
     while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r')
@@ -34,11 +35,17 @@ static int lept_parse_value(lept_context* c, lept_value* v) {
 
 int lept_parse(lept_value* v, const char* json) {
     lept_context c;
-    assert(v != NULL);
+	int ret;
+	assert(v != NULL);//判断v是否为空
     c.json = json;
-    v->type = LEPT_NULL;
+    v->type = LEPT_NULL;//先设为空
     lept_parse_whitespace(&c);
-    return lept_parse_value(&c, v);
+	if (lept_parse_value(&c, v) == LEPT_PARSE_OK) {
+		lept_parse_whitespace(&c);
+		if (*c.json != '\0')//c为指针
+			ret = LEPT_PARSE_ROOT_NOT_SINGULAR;
+	}
+    return ret;
 }
 
 lept_type lept_get_type(const lept_value* v) {

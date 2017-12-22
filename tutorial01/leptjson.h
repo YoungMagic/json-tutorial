@@ -14,8 +14,8 @@ enum {
     LEPT_PARSE_ROOT_NOT_SINGULAR
 };
 
-int lept_parse(lept_value* v, const char* json);
+int lept_parse(lept_value* v, const char* json);//解析json文件
 
-lept_type lept_get_type(const lept_value* v);
+lept_type lept_get_type(const lept_value* v);//访问结果
 
 #endif /* LEPTJSON_H__ */
